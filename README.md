@@ -1,9 +1,12 @@
 # Mini-Project
-program used : Node.js
+Program written in Node.js
 
-
-This progect uses the consol log to: 
+# Functionality
+This progect uses the console.log to: 
 - Read a file and display its content.
 - Write content to a file.
 - Delete a file.
+
+# Error
+errors will be displayed in the console.log
 
