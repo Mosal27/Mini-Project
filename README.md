@@ -8,5 +8,5 @@ This progect uses the console.log to:
 - Delete a file.
 
 # Error
-errors will be displayed in the console.log
+Errors will be displayed in the console.log
 
