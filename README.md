@@ -1,5 +1,19 @@
 # Mini-Project
 
+=======
+Program written in Node.js
+
+# Functionality
+This project uses the console.log to: 
+- Read a file and display its content.
+- Write content to a file.
+- Delete a file.
+
+# Error
+Errors will be displayed in the console.log
+
+miniporject2
+
 # PART 2 
 
 Starting Point: Use the codebase from Mini-Project 1 as the starting point.
