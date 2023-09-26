@@ -29,13 +29,13 @@ users.JSON
 The server will start on http://localhost:3000/.
 
 ## Routes
-/api/items: View a list of items with delayed data retrieval.
-/api/items/add: Render a page to add items.
-/api/items/add/:id: Render a page to update items.
-/api/items (POST): Add a new item.
-/api/items/delete/:id (POST): Delete an item.
-/api/items/update/:id (POST): Update an item.
-/: Home page with links to the items and add items.
+- /api/items: View a list of items with delayed data retrieval.
+- /api/items/add: Render a page to add items.
+- /api/items/add/:id: Render a page to update items.
+- /api/items (POST): Add a new item.
+- /api/items/delete/:id (POST): Delete an item.
+- /api/items/update/:id (POST): Update an item.
+- /: Home page with links to the items and add items.
 
 
 ## Features
