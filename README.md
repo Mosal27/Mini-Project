@@ -42,3 +42,25 @@ The server will start on http://localhost:3000/.
 Add, update, and delete items in the store.
 View a list of items with delayed data retrieval.
 Express.js server with EJS for rendering views.
+
+#Miniproject 4
+not much change
+###Promises and async
+ '''
+ app.get('/api/items', async (req, res) => {
+    try {
+      const delayedData = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(items);
+          
+        }, 2000);
+      });
+  
+      const result = await delayedData;
+
+      res.json(result);
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  });
+  '''  
