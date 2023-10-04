@@ -46,11 +46,15 @@ Express.js server with EJS for rendering views.
 #Miniproject 4
 not much change
 ###Promises and async
- '''
+
  app.get('/api/items', async (req, res) => {
+    
     try {
+      
       const delayedData = new Promise((resolve) => {
+        
         setTimeout(() => {
+          
           resolve(items);
           
         }, 2000);
@@ -63,4 +67,4 @@ not much change
       res.status(500).send(error.message);
     }
   });
-  '''  
+  
