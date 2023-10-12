@@ -68,3 +68,10 @@ not much change
     }
   });
   
+#mini project 5
+The main file of the application is App.js, where you can find the structure of the React app. It includes:
+
+Fetching data from an API (located at /api/items) and displaying the list of items.
+Rendering JSX components: JSXExample, Welcome, and OrganicStore.
+A "Refresh" button that fetches and updates the item list.
+Basic event handling and state management using React Hooks (useState and useEffect).
