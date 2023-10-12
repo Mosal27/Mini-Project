@@ -6,6 +6,7 @@ const app = express();
 const port = 3000;
 const methodOverride = require('method-override')
 
+
 app.get('/', (req, res) =>{
   res.send(`<h1>welcome to my store</h1><button ><a href="/api/workouts""> workouts </a> </button> <button ><a href="/api/workouts/add""> add workouts </a> </button> `)
   })
