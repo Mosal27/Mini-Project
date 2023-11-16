@@ -21,13 +21,12 @@ const ToDoList = () => {
     };
     setTasks([...tasks, taskObject]);
     setNewTask('');
-    incrementTaskCount(); // Increment the task count when a new task is added
+    incrementTaskCount(); 
   };
 
   useEffect(() => {
-    // Example of a side effect (logging the tasks)
     console.log('Tasks:', tasks);
-  }, [tasks]); // Include tasks in the dependency array
+  }, [tasks]); 
 
   return (
     <div>
