@@ -5,19 +5,19 @@ This project is a React-based to-do list application that demonstrates various k
 ## Objectives and Implementation
 - Integrate a React front-end with a Node.js back-end: The application is set up as a front-end project in React. 
 
-- Understand JSX Syntax: Utilized in all components, specifically seen in App.js.
+- Understand JSX Syntax: Utilized in all components, specifically seen in ToDoList.js.
 
-- Create Functional and Class Components: This application uses functional components (App).
+- Create Functional and Class Components: This application uses functional components (ToDoList).
 
-- Utilize Props and State: Demonstrated in App.js through the use of the useState hook for managing task data.
+- Utilize Props and State: Demonstrated in ToDoList.js through the use of the useState hook for managing task data.
 
-- Implement Event Handling: Event handling implemented in handleSubmit and markAsCompleted functions in App.js.
+- Implement Event Handling: Event handling implemented in handleSubmit and markAsCompleted functions in ToDoList.js.
 
-- Use Conditional Rendering: Displaying a message when no tasks are available in App.js.
+- Use Conditional Rendering: Displaying a message when no tasks are available in ToDoList.js.
 
-- Render Lists and Keys: Tasks are rendered as a list, with each item having a unique key, in App.js.
+- Render Lists and Keys: Tasks are rendered as a list, with each item having a unique key, in ToDoList.js.
 
-- In the project directory, you can run:
+n the project directory, you can run:
 
 ### `npm start`
 
