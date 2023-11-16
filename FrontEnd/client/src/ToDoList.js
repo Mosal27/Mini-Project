@@ -7,9 +7,11 @@ const ToDoList = () => {
 
   const { taskCount, incrementTaskCount } = useTaskCounter(0);
 
-  useEffect(() => {
-    console.log('Tasks:', tasks);
-  }, [tasks]); 
+  const markAsCompleted = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index].completed = !updatedTasks[index].completed;
+    setTasks(updatedTasks);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,15 +21,20 @@ const ToDoList = () => {
     };
     setTasks([...tasks, taskObject]);
     setNewTask('');
-    incrementTaskCount(); 
+    incrementTaskCount(); // Increment the task count when a new task is added
   };
+
+  useEffect(() => {
+    // Example of a side effect (logging the tasks)
+    console.log('Tasks:', tasks);
+  }, [tasks]); // Include tasks in the dependency array
 
   return (
     <div>
       <h1>My Shopping List</h1>
 
       <form onSubmit={handleSubmit}>
-        <input
+        <input 
           type='text'
           placeholder='Add a new task'
           value={newTask}
@@ -45,6 +52,9 @@ const ToDoList = () => {
             {tasks.map((taskObject, index) => (
               <li key={index} style={{ textDecoration: taskObject.completed ? 'line-through' : 'none' }}>
                 {taskObject.name}
+                <button onClick={() => markAsCompleted(index)}>
+                  {taskObject.completed ? 'Undo' : 'Complete'}
+                </button>
               </li>
             ))}
           </ul>
