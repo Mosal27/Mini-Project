@@ -19,6 +19,13 @@ This project is a React-based to-do list application that demonstrates various k
 
 n the project directory, you can run:
 
+# MiniProject 6
+Project Structure
+- FrontEnd Folder made that contains React components.
+- ToDoList.js: Main component for the to-do list.
+- useTaskCounter.js: Custom hook for tracking and logging the total number of tasks added.(userEffect, Custom Hooks, userState)
+- App.js: Main entry point of the application.
+
 ### `npm start`
 
 Runs the app in the development mode.\
