@@ -7,6 +7,8 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcryptjs';
 import session from 'express-session';
 import 'dotenv/config';
+import jwt from 'jsonwebtoken';
+import cors from 'cors';
 
 const app = express();
 const port = 3000;
@@ -18,6 +20,8 @@ app.use(methodOverride('_method'));
 
 const uri = "mongodb://127.0.0.1:27017/";
 let db;
+
+app.use(cors());
 
 
 mongoose
@@ -42,6 +46,33 @@ const itemSchema = new mongoose.Schema({
 
 const Item = mongoose.model('Item', itemSchema);
 
+const verifyToken = (req, res, next) => {
+  console.log(req);
+ const token = req.header('Authorization')?.split(' ')[1] || sessionStorage.getItem('token');
+
+if (!token) {
+    return res.redirect('/login');
+}
+
+
+  try {
+      const verified = jwt.verify(token, process.env.SECRET);
+      req.user = verified;
+      next();
+  }
+  catch (err) {
+      res.status(400).send('Invalid Token');
+  }
+};
+
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+};
+
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -51,10 +82,11 @@ const User = mongoose.model('User', userSchema);
 
 
 app.use(session({
-  secret: "black",
+  secret: process.env.SECRET,
   resave: false,
-  saveUninitialized: false
-}));
+  saveUninitialized: true,
+  cookie: { secure: false }
+}))
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -70,6 +102,7 @@ passport.deserializeUser(async (id, done) => {
       done(err);
   }
 });
+
 
 
 passport.use(new LocalStrategy(
@@ -91,7 +124,7 @@ app.get('/', (req, res) => {
   res.send(`<button><a href="/api/items"> Store Items </a></button> <button><a href="/api/items/add"> Add Item </a></button>`);
 });
 
-app.get('/api/items', async (req, res) => {
+app.get('/api/items' , async (req, res) => {
   try {
     const items = await Item.find();
     res.render('items', { items });
@@ -101,9 +134,20 @@ app.get('/api/items', async (req, res) => {
   }
 });
 
-app.get('/api/items/add', (req, res) => {
+app.get('/api/items/add',ensureAuthenticated, (req, res) => {
   res.render('itemForm.ejs');
 });
+
+app.get('/api/json', async (req, res) => {
+  try {
+    const items = await Item.find();
+    res.json(items); 
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error fetching items from the database' });
+  }
+});
+
 
 app.post('/api/items', async (req, res) => {
   try {
@@ -166,6 +210,14 @@ app.get('/login', (req, res) => {
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
   res.redirect('/');
 });
+
+app.post('/login', passport.authenticate('local', {failureRedirect:'/login',failureMessage: true, successMessage:true} ), (req, res)=>{
+  const token = jwt.sign({id: req.user.id}, process.env.SECRET,{expiresIn: '1h'});
+
+  res.header('Authorization', `Bearer ${token}`);
+  res.redirect('/' );
+})
+
 
 
 app.listen(port, () => {
