@@ -1,10 +1,64 @@
-<h1>Inventory ADD Form</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<form action="/api/items" method="POST" class="form-example">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to My Item Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
 
-      <label for="itemName">Enter workout name: </label>
-      <input type="text" name="itemName" id="itemName" required />
+        h1 {
+            color: #333;
+        }
 
-      <input type="submit" value="Add a new item" />
+        .form-example {
+            max-width: 400px;
+            margin: 0 auto;
+        }
 
-</form>
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome to My Item Form</h1>
+
+    <form action="/api/items" method="POST" class="form-example">
+        <label for="itemName">Enter item name:</label>
+        <input type="text" name="itemName" id="itemName" required />
+        
+        <label for="itemPrice">Enter item price:</label>
+        <input type="number" name="itemPrice" id="itemPrice" required />
+
+        <input type="submit" value="Add a new item!" />
+    </form>
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 import express from 'express';
 import methodOverride from 'method-override';
 import { MongoClient } from 'mongodb';
+import mongoose from 'mongoose';
 
 const app = express();
 const port = 3000;
@@ -13,94 +14,89 @@ app.use(methodOverride('_method'));
 const uri = "mongodb://127.0.0.1:27017/";
 let db;
 
+mongoose
+  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB using Mongoose"))
+  .catch(err => console.log("Could not connect to MongoDB", err));
+
 (async function () {
   try {
     const client = await MongoClient.connect(uri, { useUnifiedTopology: true });
     console.log('Connected to MongoDB.');
     db = client.db("ItemIndexer");
-
   } catch (err) {
     console.error('Error occurred while connecting to MongoDB:', err);
   }
 })();
 
+const itemSchema = new mongoose.Schema({
+  itemName: { type: String, required: true },
+  itemPrice: { type: Number, required: true },
+});
+
+const Item = mongoose.model('Item', itemSchema);
+
 app.use((req, res, next) => {
-    console.log(`${req.method} request for ${req.url}`);
-    next();
+  console.log(`${req.method} request for ${req.url}`);
+  next();
 });
 
 app.get('/', (req, res) => {
-    res.send(`<button><a href="/api/items"> Store Items </a></button> <button><a href="/api/items/add"> Add Item </a></button>`);
+  res.send(`<button><a href="/api/items"> Store Items </a></button> <button><a href="/api/items/add"> Add Item </a></button>`);
 });
 
 app.get('/api/items', async (req, res) => {
-    try {
-        const collection = db.collection('Items');
-        const items = await collection.find({}).toArray();
-        res.render('items', { items });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error fetching from database');
-    }
+  try {
+    const items = await Item.find();
+    res.render('items', { items });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching items from the database');
+  }
 });
 
 app.get('/api/items/add', (req, res) => {
-    res.render('itemForm.ejs');
-});
-
-app.get('/api/items/update/:id', (req, res) => {
-    res.render('updateItem.ejs');
+  res.render('itemForm.ejs');
 });
 
 app.post('/api/items', async (req, res) => {
-    try {
-        const { itemName } = req.body;
-        const collection = db.collection('Items');
-        const newItem = {
-            itemName,
-        };
-        await collection.insertOne(newItem);
-        console.log("Saved to database");
-        res.redirect('/api/items');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error saving to database');
-    }
-});
-
-app.post('/api/items/delete/:id', async (req, res) => {
-    try {
-        const itemId = parseInt(req.params.id);
-        const collection = db.collection('Items');
-        const result = await collection.deleteOne({ _id: itemId });
-        if (result.deletedCount === 1) {
-            res.redirect('/api/items');
-        } else {
-            res.status(404).send(`Item with ID ${itemId} not found.`);
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error deleting from database');
-    }
+  try {
+    const { itemName, itemPrice } = req.body;
+    const newItem = new Item({
+      itemName,
+      itemPrice,
+    });
+    await newItem.save();
+    console.log("Item saved to the database");
+    res.redirect('/api/items');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error saving item to the database');
+  }
 });
 
 app.post('/api/items/update/:id', async (req, res) => {
-    try {
-        const itemId = parseInt(req.params.id);
-        const updateName = req.body.itemName;
-        const collection = db.collection('items');
-        const result = await collection.updateOne({ _id: itemId }, { $set: { itemName: updateName } });
-        if (result.modifiedCount === 1) {
-            res.redirect('/api/items');
-        } else {
-            res.status(404).send(`Item with ID ${itemId} not found.`);
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error updating database');
+  try {
+    const itemId = req.params.id;
+    const { itemName, itemPrice } = req.body;
+
+    const updatedItem = await Item.findByIdAndUpdate(
+      itemId,
+      { itemName, itemPrice },
+      { new: true }
+    );
+
+    if (!updatedItem) {
+      return res.status(404).send(`Item with ID ${itemId} not found.`);
     }
+
+    res.redirect('/api/items');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error updating item in the database');
+  }
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}/`);
+  console.log(`Server running at http://localhost:${port}/`);
 });
