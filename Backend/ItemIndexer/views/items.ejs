@@ -1,0 +1,15 @@
+<h1>Welcome to the Inventory!</h1>
+
+<% for(i=0; i < items.length; i++){ %>
+    <h1><%= items[i].itemName %></h1>
+
+    <form action="/api/items/update/<%= items[i]._id %>" method="post">
+        <input type="text" name="itemName" id="itemName" placeholder="<%= items[i].itemName %>">
+        <button type="submit">Update</button>
+    </form>
+
+    <form action="/api/items/delete/<%= items[i]._id %>" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <button>Delete <%= items[i].itemName %></button>
+    </form>
+<% } %>
