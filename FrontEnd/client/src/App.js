@@ -1,9 +1,9 @@
 import './App.css';
-import ToDoList from './ToDoList';
+import ItemIndexer from './ItemIndexer';
 function App() {
   return (
     <div >
-      <ToDoList/>
+      <ItemIndexer/>
       </div>
   );
 }
