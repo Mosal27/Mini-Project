@@ -27,7 +27,7 @@ const FetchAPI = () => {
           {items.map((item, index) => (
             <li key={index} className={styles.item}>
               <span className={styles.itemName}>{item.itemName}</span>
-              <span className={styles.itemPrice}> Price: {item.itemPrice}</span>
+              <span className={styles.itemPrice}> Price: ${item.itemPrice}</span>
             </li>
           ))}
         </ul>
