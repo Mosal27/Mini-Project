@@ -1,10 +1,10 @@
 import './App.css';
-import ItemIndexer from './components/ItemIndexer';
-import FetchAPI from './components/fetchAPI'
+import FetchAPI from './components/FetchAPI.js'
+
 function App() {
   return (
     <div >
-      <ItemIndexer/>
+      <h1>Welcome To Your Local Store</h1>
       <FetchAPI/>
       </div>
   );
