@@ -1,15 +1,38 @@
-<h1>Welcome to the Inventory!</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<% for(i=0; i < items.length; i++){ %>
-    <h1><%= items[i].itemName %></h1>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+</head>
 
-    <form action="/api/items/update/<%= items[i]._id %>" method="post">
-        <input type="text" name="itemName" id="itemName" placeholder="<%= items[i].itemName %>">
-        <button type="submit">Update</button>
-    </form>
+<body>
+    <h1>Welcome to the Inventory!</h1>
 
-    <form action="/api/items/delete/<%= items[i]._id %>" method="post">
-        <input type="hidden" name="_method" value="DELETE">
-        <button>Delete <%= items[i].itemName %></button>
-    </form>
-<% } %>
+    <% for (let i = 0; i < items.length; i++) { %>
+        <div>
+            <h2><%= items[i].itemName %></h2>
+            <p>Price: $<%= items[i].itemPrice.toFixed(2) %></p>
+
+            <form action="/api/items/update/<%= items[i]._id %>" method="POST">
+                <label for="updateItemName">Update Item Name:</label>
+                <input type="text" name="itemName" id="updateItemName" placeholder="<%= items[i].itemName %>" required>
+                
+                <label for="updateItemPrice">Update Item Price:</label>
+                <input type="number" name="itemPrice" id="updateItemPrice" placeholder="<%= items[i].itemPrice %>" required>
+
+                <button type="submit">Update</button>
+            </form>
+
+            <form action="/api/items/delete/<%= items[i]._id %>" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button>Delete <%= items[i].itemName %></button>
+            </form>
+            
+        </div>
+    <% } %>
+</body>
+
+</html>
